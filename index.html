@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<script src="Ext/jquery.js" type="text/javascript"></script>
+		<script src="Ext/underscore.js" type="text/javascript"></script>
+		<script src="Ext/backbone.js" type="text/javascript"></script>
+		<script src="lang/Lang.js" type="text/javascript"></script>
+		
+		<script src="GUI/desktop/Login.view.js" type="text/javascript"></script>
+		<script src="GUI/desktop/Login.model.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			$(function () {
+				var Login = JS.include("GUI.view.Login");
+				
+				new Login().render();
+			});
+		</script>
+	</body>
+</html>

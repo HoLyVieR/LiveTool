@@ -1,0 +1,72 @@
+<html>
+	<head>
+		<title>P2P Test</title>
+	</head>
+	<body>
+		<b>Welcome</b>
+	
+		<br />
+		<textarea id="msgs" style="width: 300px; height: 200px"></textarea><br />
+		<input type="text" id="in">
+		<input type="button" id="btn" value="Send">
+	
+		<div id="debug"></div>
+		
+		
+		<!-- External libs -->
+		<script src="http://192.168.0.107/ext/swfobject.js" type="text/javascript"></script>
+		<script src="http://192.168.0.107/ext/json.js" type="text/javascript"></script>
+		<script src="http://192.168.0.107/socket.io/support/socket.io-client/socket.io.js" type="text/javascript"></script>
+		
+		<script type="text/javascript">
+			// Configuration for socket.io //
+			;(function () {
+				io.setPath("http://192.168.0.107/socket.io/support/socket.io-client/");
+			})();
+		</script>
+		
+		<!-- Internal libs -->
+		<script src="http://192.168.0.107/ext/JS.js" type="text/javascript"></script>
+		<script src="http://192.168.0.107/log/logger.js" type="text/javascript"></script>
+		
+		<script type="text/javascript">
+			;(function () {
+				var Logger = JS.include("logger.Logger");
+				
+				Logger.output(function (msg) {
+					document.getElementById("debug").innerHTML += msg + "<br />";
+				});
+			})();
+		</script>
+		
+		<script src="http://192.168.0.107/flash/Utilities.js" type="text/javascript"></script>
+		<script src="http://192.168.0.107/flash/RTMFP.js" type="text/javascript"></script>
+		<script src="http://192.168.0.107/connection/client/rtmfp.js" type="text/javascript"></script>
+		<script src="http://192.168.0.107/connection/client/manager.js" type="text/javascript"></script>
+		
+		<script type="text/javascript">
+			;(function () {
+				var ClientManager = JS.include("connection.client.Manager");
+				var manager = ClientManager();
+				
+				manager.init();
+				
+				manager.ready(function () {
+					manager.connectToAll();
+					
+					manager.data(function (peerID, data) {
+						document.getElementById("msgs").value += "[" + peerID + "] " + data + "\n";
+					});
+					
+					manager.peerConnect(function (peer) {
+						document.getElementById("msgs").value += peer.id + " connected.\n";
+					});
+					
+					document.getElementById("btn").onclick = function () {
+						manager.broadcast(document.getElementById("in").value);
+					};
+				});
+			})();
+		</script>
+	</body>
+</html>
