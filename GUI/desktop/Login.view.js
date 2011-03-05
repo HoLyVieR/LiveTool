@@ -17,20 +17,18 @@
 		
 		},
 		
-		tagName : "div",
-		id : "login",
+		el : $("#login"),
 		
 		render : function () {
-			$(this.el).html("\
+			$(this.el).html('<h2>Live Tool Login</h2>\
 				<form>\
-					" + Lang.t("Username") + " : <input type='text' id='username' /><br /> \
-					" + Lang.t("Password") + " : <input type='password' id='password' /><br /> \
+					' + Lang.t("Username") + ' : <input type="text" id="username" /><br /> \
+					' + Lang.t("Password") + ' : <input type="password" id="password" /><br /> \
 					<br />\
-					<input type='submit' value='" + Lang.t("Login") + "' class='login'>\
-					<input type='submit' value='" + Lang.t("Create account") + "' class='create'>\
-				</form>\
-			");
+					<input type="submit" value="' + Lang.t("Login") + '" class="login">\
+					<input type="submit" value="' + Lang.t("Create account") + '" class="create">\
+				</form>');
 			return this;
 		}
 	});
-))();
+})();

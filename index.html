@@ -1,19 +1,22 @@
 <html>
 	<head>
 		<title></title>
+		<link href="css/style.css" type="text/css" rel="stylesheet" />
 	</head>
 	<body>
+		<div id="login"></div>
+	
 		<script src="Ext/jquery.js" type="text/javascript"></script>
 		<script src="Ext/underscore.js" type="text/javascript"></script>
 		<script src="Ext/backbone.js" type="text/javascript"></script>
+		<script src="Ext/JS.js" type="text/javascript"></script>
 		<script src="lang/Lang.js" type="text/javascript"></script>
 		
 		<script src="GUI/desktop/Login.view.js" type="text/javascript"></script>
-		<script src="GUI/desktop/Login.model.js" type="text/javascript"></script>
+		<script src="GUI/desktop/Login.cont.js" type="text/javascript"></script>
 		<script type="text/javascript">
-			$(function () {
+			$(document).ready(function () {
 				var Login = JS.include("GUI.view.Login");
-				
 				new Login().render();
 			});
 		</script>
