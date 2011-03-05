@@ -3,6 +3,7 @@ var http = require('http'),
 	  fs = require('fs'),
  Manager = require('./connection/server/manager').Manager,
    RTMFP = require('./connection/server/rtmfp').RTMFPManager;
+    AUTH = require('./auth/AuthModule').AuthModule;
  
 
 var server = http.createServer(function(req, res){ 
@@ -18,3 +19,4 @@ server.listen(8080);
 var socket = new Manager();
     socket.listen(server);
     socket.register(new RTMFP());
+    socket.register(new AUTH());

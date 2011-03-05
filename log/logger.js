@@ -7,7 +7,7 @@
 	}
 	
 	// Default output //
-	var _output = console.log; 
+	var _output = function (msg) { console.log(msg); }; 
 	
 	logger.Logger = {};
 	

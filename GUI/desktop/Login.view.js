@@ -2,6 +2,7 @@
 	JS.namespace("GUI.view");
 	
 	var Lang = JS.include("lang.Lang");
+	var Logger = JS.include("logger.Logger");
 	
 	GUI.view.Login = Backbone.View.extend({
 		events : {
@@ -10,14 +11,51 @@
 		},
 		
 		btnLoginClick : function () {
-			
+			if (this.validateForm()) {
+				var username = $("#username").val();
+				var password = $("#password").val();
+				
+				this.trigger("login" , username, password);
+			}
 		},
 		
 		btnCreateClick : function () {
-		
+			if (this.validateForm()) {
+				var username = $("#username").val();
+				var password = $("#password").val();
+				
+				this.trigger("createAccount" , username, password);
+			}
 		},
 		
-		el : $("#login"),
+		setValidator : function (validator) {
+			this.validator = validator;
+		},
+		
+		validateForm : function () {
+			var username = $("#username").val();
+			var password = $("#password").val();
+			var error = false;
+			
+			$("#username").css({ background: "#ffffff" });
+			$("#password").css({ background: "#ffffff" });
+			
+			// If we have a validator //
+			if (this.validator) {
+				
+				// Check username //
+				if (!this.validator.isValidUsername(username)) {
+					$("#username").css({ background : "#FF809F" });
+				}
+				
+				// Check password //
+				if (!this.validator.isValidPassword(password)) {
+					$("#password").css({ background : "#FF809F" });
+				}
+			}
+			
+			return !error;
+		},
 		
 		render : function () {
 			$(this.el).html('<h2>Live Tool Login</h2>\
@@ -28,6 +66,9 @@
 					<input type="submit" value="' + Lang.t("Login") + '" class="login">\
 					<input type="submit" value="' + Lang.t("Create account") + '" class="create">\
 				</form>');
+			
+			$("form", this.el).submit(function () { return false; });
+			
 			return this;
 		}
 	});

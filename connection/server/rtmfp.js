@@ -96,6 +96,8 @@ exports.RTMFPManager = function () {
 	
 	// Callback when data is received //
 	self.data = function (data, client) {
+		assert.ok(!!data.methodName, "No method name provided");
+		
 		var methodName = data.methodName;
 		
 		if (_methods[methodName]) {

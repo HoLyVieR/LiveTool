@@ -45,6 +45,8 @@ exports.Manager = function () {
 			}
 			
 			client.on('message', function(data) {
+				logger.trace(data);
+				
 				var packet = JSON.parse(data);
 				
 				assert.ok(!!packet.module, "Invalid packet data");
