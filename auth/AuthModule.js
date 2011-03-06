@@ -1,5 +1,7 @@
 var assert = require('assert'),
-    logger = require('../log/logger').Logger;
+    logger = require('../log/logger').Logger,
+     redis = require("../redis").createClient(),
+      hash = require("../security/hash"); 
     
 exports.AuthModule = function () {
 	var self = this;
@@ -11,13 +13,40 @@ exports.AuthModule = function () {
 		assert.ok(!!data.username, "Missing username");
 		assert.ok(!!data.password, "Missing password");
 		
-		if (data.username == "123" && data.password == "123") {
-			client.privdata.isAuth = true;
-			sendData(client, "loginSuccess");
-		} else {
-			sendData(client, "loginFail");
-		}
-	}
+		//TODO: Validate username //
+		var hashPassword = hash.sha256(data.password);
+		
+		redis.GET("user:" + data.username + ":password", function (err, obj) {
+			if (hashPassword == obj) {
+				client.privdata.isAuth = true;
+				client.metadata.username = data.username;
+				sendData(client, "loginSuccess");
+			} else {
+				sendData(client, "loginFail");
+			}
+		});
+	};
+	
+	_methods["createAccount"] = function (data, client) {
+		assert.ok(!!data.username, "Missing username");
+		assert.ok(!!data.password, "Missing password");
+		
+		//TODO: Validate username //
+		var hashPassword = hash.sha256(data.password);
+		
+		redis.GET("user:" + data.username + ":password", function (err, obj) {
+			logger.trace(JSON.stringify(obj));
+			
+			if (obj == null) {
+				redis.SET("user:" + data.username + ":password", hashPassword);
+				client.privdata.isAuth = true;
+				client.metadata.username = data.username;
+				sendData(client, "loginSuccess");
+			} else {
+				sendData(client, "loginExist");
+			}
+		});
+	};
 	
 	// Send data to a specific client for a specific method //
 	function sendData (client, method, data) {

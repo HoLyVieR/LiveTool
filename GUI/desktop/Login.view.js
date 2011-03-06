@@ -1,8 +1,8 @@
 ;(function () {
 	JS.namespace("GUI.view");
 	
-	var Lang = JS.include("lang.Lang");
-	var Logger = JS.include("logger.Logger");
+	var Lang = JS.include("lang.Lang"),
+		Logger = JS.include("logger.Logger");
 	
 	GUI.view.Login = Backbone.View.extend({
 		events : {
@@ -26,6 +26,16 @@
 				
 				this.trigger("createAccount" , username, password);
 			}
+		},
+		
+		displayError : function (msg) {
+			$(".message", this.el).text(msg);
+		},
+		
+		hide : function (callback) {
+			callback = callback || function () {};
+			
+			$(this.el).hide(1000, callback);
 		},
 		
 		setValidator : function (validator) {
@@ -65,8 +75,10 @@
 					<br />\
 					<input type="submit" value="' + Lang.t("Login") + '" class="login">\
 					<input type="submit" value="' + Lang.t("Create account") + '" class="create">\
-				</form>');
+				</form>\
+				<span class="message"></span>');
 			
+			$(this.el).show();
 			$("form", this.el).submit(function () { return false; });
 			
 			return this;
