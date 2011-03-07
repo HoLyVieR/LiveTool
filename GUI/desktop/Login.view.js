@@ -78,7 +78,7 @@
 				</form>\
 				<span class="message"></span>');
 			
-			$(this.el).show();
+			$(this.el).show(1000);
 			$("form", this.el).submit(function () { return false; });
 			
 			return this;

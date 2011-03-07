@@ -11,6 +11,37 @@
 }
 
 /**
+ * Project CSS
+ */
+ 
+#projects {
+	padding: 20px;
+	margin: 20px;
+	background: #FFF5D6;
+}
+
+#projects h2 {
+	border-left: 5px solid #000;
+	border-bottom: 1px solid #000;
+	padding: 3px 10px;
+}
+
+#projects table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#projects th {
+	background: #A1D0FF;
+	padding: 8px;
+}
+
+#projects td {
+	background: #D9EAFA;
+	padding: 5px;
+}
+
+/**
  * Global CSS
  */
  

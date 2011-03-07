@@ -1,0 +1,22 @@
+/**
+ * Login CSS
+ */
+
+#login {
+	margin: auto;
+	padding : 40px;
+	width: 250px;
+	background : #9BE2F2;
+	text-align: center;
+}
+
+/**
+ * Global CSS
+ */
+ 
+input[type="button"], input[type="submit"] {
+	border: 0px;
+	background: #253380;
+	color: #fff;
+	padding: 5px 14px 5px 14px;
+}

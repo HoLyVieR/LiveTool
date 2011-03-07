@@ -5,9 +5,7 @@ var assert = require('assert'),
     
 exports.AuthModule = function () {
 	var self = this;
-	var _manager;
 	var _methods = {};
-	var _nextId = 0;
 
 	_methods["login"] = function (data, client) {
 		assert.ok(!!data.username, "Missing username");
@@ -55,23 +53,8 @@ exports.AuthModule = function () {
 		client.fn.send("AUTH", packet);
 	}
 	
-	// Return a peer by it's ID //
-	function getPeer (token) {
-		for (var i=0; i<_peers.length; i++) {
-			if (_peers[i].metadata.id == token)
-				return _peers[i];
-		}
-		
-		return;
-	}
-	
 	// Name of the module //
-	self.name = "AUTH";	
-	
-	// Set the manager //
-	self.manager = function (manager) {
-		_manager = manager;
-	}
+	self.name = "AUTH";
 	
 	// Callback when data is received //
 	self.data = function (data, client) {
