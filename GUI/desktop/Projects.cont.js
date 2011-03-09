@@ -40,7 +40,7 @@
 		
 		gotoProject : function (id) {
 			this.view.hide(function () {
-				window.location.hash = "#project/" + id;
+				window.location.hash = "#editor/" + id;
 			});
 		},
 		

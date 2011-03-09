@@ -54,12 +54,12 @@
 			if (this.validator) {
 				
 				// Check username //
-				if (!this.validator.isValidUsername(username)) {
+				if (!this.validator.isUsername(username)) {
 					$("#username").css({ background : "#FF809F" });
 				}
 				
 				// Check password //
-				if (!this.validator.isValidPassword(password)) {
+				if (!this.validator.isPassword(password)) {
 					$("#password").css({ background : "#FF809F" });
 				}
 			}

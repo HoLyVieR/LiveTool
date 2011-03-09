@@ -1,10 +1,9 @@
 var http = require('http'),
-      io = require('./socket.io/lib/socket.io'),
 	  fs = require('fs'),
  Manager = require('./connection/server/manager').Manager,
    RTMFP = require('./connection/server/rtmfp').RTMFPManager;
-    AUTH = require('./auth/AuthModule').AuthModule;
- PROJECT = require('./project/ProjectModule').ProjectModule;
+    AUTH = require('./serverModule/auth/AuthModule').AuthModule;
+ PROJECT = require('./serverModule/project/ProjectModule').ProjectModule;
  
 
 var server = http.createServer(function(req, res){ 

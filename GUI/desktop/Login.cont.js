@@ -1,8 +1,9 @@
 ;(function () {
 	JS.namespace("GUI.controller");
 	
-	var Logger = JS.include("logger.Logger"),
-		Lang   = JS.include("lang.Lang");
+	var Logger    = JS.include("logger.Logger"),
+		Lang      = JS.include("lang.Lang"),
+		Validator = JS.include("validation.Validator");
 	
 	GUI.controller.Login = Backbone.Controller.extend({
 		routes : {
@@ -39,16 +40,13 @@
 			this.view.bind("createAccount", function () { self.createAccount.apply(self, arguments); });
 			
 			// Register the validator //
-			this.view.setValidator(this);
+			this.view.setValidator(Validator);
 		},
 		
 		homepage : function () {
 			this.view.render();
 		},
-		
-		isValidUsername : function (username) { return username != ""; },
-		isValidPassword : function (password) { return password != ""; },
-		
+				
 		tryLogin : function (username, password) {
 			this.connection.sendData("AUTH",
 				{methodName : "login", data : { username : username, password : password }});
