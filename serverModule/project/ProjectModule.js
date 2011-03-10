@@ -16,7 +16,7 @@ exports.ProjectModule = function () {
 		redis.INCR("project:nextId", function (err, nextId) {
 			redis.SET("project:" + nextId + ":name", data);
 			redis.HSET("project:" + nextId + ":user", client.metadata.username, 7);
-			redis.LPUSH("user:" + client.metadata.username + ":projects", nextId);
+			redis.ZADD("user:" + client.metadata.username + ":projects", nextId, nextId);
 			
 			sendData(client, "projectCreated");
 		});
@@ -30,7 +30,7 @@ exports.ProjectModule = function () {
 		}
 		
 		// Getting the list of project id of a user //
-		redis.LRANGE("user:" + client.metadata.username + ":projects", 0, -1, function (err, obj) {
+		redis.ZRANGE("user:" + client.metadata.username + ":projects", 0, -1, function (err, obj) {
 			var nbProject = obj.length,
 				projects = [];
 			

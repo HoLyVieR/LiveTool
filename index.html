@@ -6,6 +6,7 @@
 	<body>
 		<div id="login">Loading ...</div>
 		<div id="projects" style="display: none"></div>
+		<div id="editor" style="display: none"></div>
 		
 		<!-- External libs -->
 		<script src="http://192.168.0.107/ext/underscore.js" type="text/javascript"></script>
@@ -35,33 +36,48 @@
 		
 		<!-- GUI -->
 		<script src="http://192.168.0.107/GUI/desktop/Login.view.js" type="text/javascript"></script>
-		<script src="http://192.168.0.107/GUI/desktop/Login.cont.js" type="text/javascript"></script>
+		<script src="http://192.168.0.107/GUI/Login.cont.js" type="text/javascript"></script>
 		<script src="http://192.168.0.107/GUI/desktop/Projects.view.js" type="text/javascript"></script>
-		<script src="http://192.168.0.107/GUI/desktop/Projects.cont.js" type="text/javascript"></script>
+		<script src="http://192.168.0.107/GUI/Projects.cont.js" type="text/javascript"></script>
+		<script src="http://192.168.0.107/GUI/desktop/Editor.view.js" type="text/javascript"></script>
+		<script src="http://192.168.0.107/GUI/Editor.cont.js" type="text/javascript"></script>
 		<script type="text/javascript">
 			;(function ($) {
 				$("div").hide();
 			
 				$(document).ready(function () {
-					var LoginView = JS.include("GUI.view.Login");
-					var LoginCont = JS.include("GUI.controller.Login");
-					var ProjectsView = JS.include("GUI.view.Projects");
-					var ProjectsCont = JS.include("GUI.controller.Projects");
+					var LoginView     = JS.include("GUI.view.Login");
+					var LoginCont     = JS.include("GUI.controller.Login");
+					var ProjectsView  = JS.include("GUI.view.Projects");
+					var ProjectsCont  = JS.include("GUI.controller.Projects");
 					var ClientManager = JS.include("connection.client.Manager");
+					var EditorView    = JS.include("GUI.view.Editor");
+					var EditorCont    = JS.include("GUI.controller.Editor");
 					
 					// Initialize the server connection //
 					var manager = ClientManager();
 					manager.init();
 					
 					manager.ready(function () {
-						// Initialize the GUI View //
-						var loginView = new LoginView({ el : $("#login") });
-						var loginCont = new LoginCont({ connection : manager, view : loginView });
-						
-						var projectsView = new ProjectsView ({ el : $("#projects") });
-						var projectsCont = new ProjectsCont ({ connection : manager, view : projectsView });
-						
-						Backbone.history.start();
+						try {
+							// Initialize the GUI View //
+							var loginView = new LoginView({ el : $("#login") });
+							var loginCont = new LoginCont({ connection : manager, view : loginView });
+							
+							var projectsView = new ProjectsView ({ el : $("#projects") });
+							var projectsCont = new ProjectsCont ({ connection : manager, view : projectsView });
+							
+							var editorView = new EditorView ({ el : $("#editor") });
+							var editorCont = new EditorCont ({ connection : manager, view : editorView });
+							
+							Backbone.history.start();
+						} catch (e) {
+							// Log the error manually, since this callback can be 
+							// called from Flash, which won't display any error if
+							// there's an exception is thrown.
+							
+							console.error(e);
+						}
 					});
 				});
 			})(jQuery);

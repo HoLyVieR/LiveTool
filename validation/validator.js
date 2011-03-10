@@ -1,6 +1,6 @@
 ;(function () {
 	if (typeof exports != "undefined") {
-		var validation = exports;
+		validation = exports;
 	} else {
 		JS.namespace("validation");
 	}
