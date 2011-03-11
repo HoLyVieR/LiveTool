@@ -18,9 +18,8 @@
 			var self = this;
 			var _methods = {};
 			
-			_methods["getProjectData"] = function (data) {
-				alert(data);
-			};
+			_methods["getProjectData"]   = function () { self.getProjectData.apply(self, arguments); };
+			_methods["authNeeded"] = function () { self.authNeeded.apply(self, arguments); };
 			
 			this.connection.register({
 				name : "EDITOR",
@@ -38,6 +37,19 @@
 		loadEditor : function (id) {
 			this.connection.sendData("EDITOR", 
 				{ methodName : "getProjectData", data : id });
+				
+			this.view.render();
+		},
+		
+		getProjectData : function (data) {
+			var projectData = data.data;
+			var name = data.name;
+		},
+		
+		authNeeded : function () {
+			this.view.hide(function () {
+				window.location.hash = "#";
+			});
 		}
 	});
 })();

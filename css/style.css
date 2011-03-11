@@ -42,6 +42,61 @@
 }
 
 /**
+ * Editor CSS
+ */
+
+#editor {
+	width: 100%;
+	height: 100%;
+}
+
+#bottomBar {
+	position: fixed;
+	bottom: 25px;
+	width: 600px;
+	background: #539282;
+	left: 50%;
+	margin-left: -300px;
+}
+
+#iconsBox, #arrowBox, #utilitiesBox {
+	float: left;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+#arrowBox {
+	width: 50px;
+}
+
+#utilitiesBox {
+	width: 100px;
+}
+
+#iconsBox {
+	width: 450px;
+}
+
+#iconsBox ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#iconsBox li {
+	float: left;
+	margin: 0px;
+	padding: px;
+}
+
+#arrowBox img, #utilitiesBox img {
+	margin: 0px;
+	padding: 0px;
+	float: left;
+}
+
+/**
  * Global CSS
  */
  

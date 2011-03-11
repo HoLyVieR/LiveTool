@@ -7,6 +7,10 @@ exports.EditorModule = function () {
 	var self = this;
 	var _methods = {};
 	
+	_methods["joinProject"] = function (data, client) {
+		
+	};
+	
 	_methods["getProjectData"] = function (data, client) {
 		data = +data;
 		
@@ -51,6 +55,11 @@ exports.EditorModule = function () {
 				}
 			}
 		});
+	};
+	
+	
+	_methods["getPeer"] = function (data, client) {
+		
 	};
 	
 	// Send data to a specific client for a specific method //
