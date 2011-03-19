@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> ..:: SVG Editor ::.. </title>
+		<link href="css/style.css" type="text/css" rel="stylesheet" />
+		
+		<script type="text/javascript" src="Ext/underscore.js"></script>
+		<script type="text/javascript" src="Ext/jquery.js"></script>
+		<script type="text/javascript" src="Ext/backbone.js"></script>
+		<script type="text/javascript" src="Ext/JS.js"></script>
+		<script type="text/javascript" src="Ext/JSON.js"></script>
+		<script type="text/javascript" src="Ext/raphael-min.js"></script>
+		
+		<script type="text/javascript" src="log/logger.js"></script>
+		<script type="text/javascript" src="GUI/Editor.cont.js"></script>
+		<script type="text/javascript" src="GUI/desktop/Editor.view.js"></script>
+		
+		<script type="text/javascript" src="components/component.js"></script>
+		<script type="text/javascript" src="components/line.comp.js"></script>
+		<script type="text/javascript" src="components/square.comp.js"></script>
+		
+		
+		
+		<script type="text/javascript">
+			$(function () {
+				var EditorCont = JS.include("GUI.controller.Editor");
+				var EditorView = JS.include("GUI.view.Editor");
+				var ConnectionMock = { register : function () {}, sendData : function () {} };
+				var LineComponent = JS.include("component.Line");
+				var SquareComponent = JS.include("component.Square");
+				
+				var view = new EditorView({el : $("#editor")});
+				new EditorCont({ view : view, connection : ConnectionMock });
+				
+				Backbone.history.start();
+				
+				window.location.hash = "#editor/1";
+				
+				view.addToolbarComponent(new LineComponent());
+				view.addToolbarComponent(new SquareComponent());
+			});
+		</script>
+	</head>
+	<body>
+		<div id="editor"></div>
+	</body>
+</html>

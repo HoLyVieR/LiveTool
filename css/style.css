@@ -50,6 +50,10 @@
 	height: 100%;
 }
 
+#svg {
+	margin: auto;
+}
+
 #bottomBar {
 	position: fixed;
 	bottom: 25px;
@@ -57,6 +61,8 @@
 	background: #539282;
 	left: 50%;
 	margin-left: -300px;
+	overflow: hidden;
+	height: 50px;
 }
 
 #iconsBox, #arrowBox, #utilitiesBox {
@@ -76,12 +82,14 @@
 
 #iconsBox {
 	width: 450px;
+	overflow: hidden;
 }
 
 #iconsBox ul {
 	list-style: none;
 	margin: 0px;
 	padding: 0px;
+	position: relative;
 }
 
 #iconsBox li {
