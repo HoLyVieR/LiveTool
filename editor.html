@@ -5,7 +5,7 @@
 		<link href="css/style.css" type="text/css" rel="stylesheet" />
 		
 		<script type="text/javascript" src="Ext/underscore.js"></script>
-		<script type="text/javascript" src="Ext/jquery.js"></script>
+		<script type="text/javascript" src="Ext/jquery.min.js"></script>
 		<script type="text/javascript" src="Ext/backbone.js"></script>
 		<script type="text/javascript" src="Ext/JS.js"></script>
 		<script type="text/javascript" src="Ext/JSON.js"></script>
@@ -34,10 +34,10 @@
 				
 				Backbone.history.start();
 				
-				window.location.hash = "#editor/1";
-				
 				view.addToolbarComponent(new LineComponent());
 				view.addToolbarComponent(new SquareComponent());
+				
+				window.location.hash = "#editor/1";
 			});
 		</script>
 	</head>

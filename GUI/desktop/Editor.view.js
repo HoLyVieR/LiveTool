@@ -9,8 +9,18 @@
 			
 		},
 		
-		render : function (args) {
+		isRendered : false,
+		
+		render : function () {
 			var self = this;
+			
+			// Prevent double rendering //
+			if (self.isRendered) {
+				$(this.el).show();
+				return;
+			}
+			
+			self.isRendered = true;
 			
 			$(this.el).html('\
 				<div id="bottomBar">\
@@ -55,7 +65,7 @@
 				});
 			});
 			
-			background.mousedown(function (ev) {
+			$("#svg").mousedown(function (ev) {
 				var offset = $("#svg").offset();
 				var x = event.pageX - offset.left;
 				var y = event.pageY - offset.top;
@@ -79,7 +89,7 @@
 				self.drawStop();
 			});
 			
-			$(this.el).show(1000);
+			$(this.el).show();
 			
 			return this;
 		},
@@ -145,6 +155,12 @@
 		// Add a component in the toolbar //
 		addToolbarComponent : function (component) {
 			var self = this;
+			
+			// If the view isn't initialize yet //
+			if ($("#iconsBox ul").length == 0) {
+				self.render();
+				$(self.el).hide();
+			}
 			
 			// Adding the icon in the toobar //
 			var scrollPane = $("#iconsBox ul")[0];

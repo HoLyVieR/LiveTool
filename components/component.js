@@ -55,5 +55,10 @@
 			if (!connection) return _connection;
 			_connection = connection;
 		};
+		
+		// Notify everything of the update to an element //
+		self.notifyUpdate = function () {
+			_connection.broadcast();
+		};
 	};
 })();

@@ -36,9 +36,14 @@
 				_element.remove();
 			}
 			
+			var smallestX = Math.min(self.startPoint().x, self.endPoint().x),
+				smallestY = Math.min(self.startPoint().y, self.endPoint().y),
+				 biggestX = Math.max(self.startPoint().x, self.endPoint().x),
+				 biggestY = Math.max(self.startPoint().y, self.endPoint().y);
+			
 			_element = drawZone.rect(
-				self.startPoint().x, self.startPoint().y,
-				self.endPoint().x - self.startPoint().x, self.endPoint().y - self.startPoint().y);
+				smallestX, smallestY,
+				biggestX - smallestX, biggestY - smallestY);
 			_element.attr({ "stroke-width" : "2px", "stroke" : "#000000", "fill" : "#ffffff"  });
 		}
 	};

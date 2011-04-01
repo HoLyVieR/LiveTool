@@ -32,6 +32,10 @@
 					}
 				}
 			});
+			
+			this.connection.data(function (peerID, data) {
+				
+			});
 		},
 		
 		loadEditor : function (id) {
