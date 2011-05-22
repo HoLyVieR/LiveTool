@@ -1,0 +1,17 @@
+Structure of the packet client/server :
+
+{
+	module : "ModuleName",
+	data : 
+	{ 
+		methodName : "methodName", 
+		data :  {} 
+	}
+}
+
+Structure of the packet client/client (broadcast) for editor :
+
+{
+	methodName : "methodName",
+	data : {}
+}

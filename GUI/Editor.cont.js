@@ -14,12 +14,20 @@
 			this.view = args.view;
 			this.connection = args.connection;
 			
+			var self = this;
+			
+			// Register the callback for the component draw / update //
+			this.view.bind("componentDrawEnd", function () { self.componentDrawEnd.apply(self, arguments); });
+			this.view.bind("componentUpdate", function () { self.componentUpdate.apply(self, arguments); });
+			
 			// Register the callback for auth //
 			var self = this;
 			var _methods = {};
 			
 			_methods["getProjectData"]   = function () { self.getProjectData.apply(self, arguments); };
 			_methods["authNeeded"] = function () { self.authNeeded.apply(self, arguments); };
+			_methods["componentDraw"] = function () { self.peerComponentDraw.apply(self, arguments); };
+			_methods["componentUpdate"] = function () { self.peerComponentUpdate.apply(self, arguments); };
 			
 			this.connection.register({
 				name : "EDITOR",
@@ -34,8 +42,37 @@
 			});
 			
 			this.connection.data(function (peerID, data) {
-				
+				Logger.trace("Data (From Peer) : " + JSON.stringify(data));
+					
+				if (_methods[data.methodName]) {
+					_methods[data.methodName](data.data);
+				}
 			});
+		},
+		
+		// Callback when a component is added //
+		componentDrawEnd : function (component) {
+			this.connection.broadcast({
+				"methodName" : "componentDraw",
+				"data" : component.serialize()
+			});
+		},
+		
+		// Callback when a component is updated  //
+		componentUpdate : function (component) {
+			this.connection.broadcast({
+				"methodName" : "componentUpdate",
+				"data" : component.serialize()
+			});
+		},
+		
+		// Peer events //
+		peerComponentDraw : function (component) {
+			this.view.drawComponent(component);
+		},
+		
+		peerComponentUpdate : function (component) {
+			
 		},
 		
 		loadEditor : function (id) {

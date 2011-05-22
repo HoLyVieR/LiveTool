@@ -118,7 +118,7 @@
 				this.drawStop();
 			}
 		
-			this.currentDraw = this.currentSelector.createObject(this.drawZone);
+			this.currentDraw = this.currentSelector.createObject(this.drawZone, this.controller);
 			this.currentDraw.startPoint({ x : x, y : y });
 			this.currentDraw.endPoint({ x : x, y : y });
 			this.currentDraw.preview();
@@ -143,6 +143,12 @@
 				this.currentDraw = undefined;
 				this.setCurrentSelector();
 			}
+		},
+		
+		drawComponent : function (component) {
+			var comp = new component.Component();
+			comp.unserialize(this.drawZone, component);
+			comp.draw();
 		},
 		
 		/**

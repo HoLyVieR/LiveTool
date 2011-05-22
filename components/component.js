@@ -8,22 +8,37 @@
 		var _endPoint = { x : 0, y : 0 };
 		var _GUID;
 		var _connection;
+		var _type;
 		
 		self.serialize = function () {
-			return JSON.stringify(self);
+			var tempObject = $.extend(true, {
+				"type" : self.type(),
+				"startPoint" : self.startPoint(),
+				"endPoint" : self.endPoint(),
+			}, self);
+			
+			return JSON.stringify(tempObject);
 		};
 		
-		self.unserialize = function (str) {
+		self.unserialize = function (drawZone, str) {
 			var obj = JSON.parse(str);
+			var comp = component[obj.type].createObject(drawZone);
 			
-			for (var i in obj) {
-				self[i] = obj[i];
-			}
+			comp.type(obj.type);
+			comp.startPoint(obj.startPoint);
+			comp.endPoint(obj.endPoint);
+			
+			self = comp;
 		};
 		
 		self.GUID = function (GUID) {
 			if (!GUID) return _GUID;
 			_GUID = GUID;
+		};
+		
+		self.type = function (type) {
+			if (!type) return _type;
+			_type = type;
 		};
 		
 		// Allow generic event binding //

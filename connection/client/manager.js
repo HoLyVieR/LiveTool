@@ -97,7 +97,7 @@
 		self.sendData = function (module, data) {
 			var packet = {module : module, data : data};
 			
-			Logger.trace("Sending : " + JSON.stringify(packet));
+			Logger.trace("Sending (To Server) : " + JSON.stringify(packet));
 			_server.send(JSON.stringify(packet));
 		};
 		

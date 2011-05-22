@@ -19,6 +19,8 @@
 		// Parent constructor class //
 		ComponentClass.apply(this);
 		
+		self.type("Square");
+		
 		self.preview = self.draw = function () {
 			repaint();
 		};
