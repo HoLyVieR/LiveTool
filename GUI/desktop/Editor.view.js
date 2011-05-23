@@ -25,15 +25,15 @@
 			$(this.el).html('\
 				<div id="bottomBar">\
 					<div id="arrowBox">\
-						<img src="images/arrow-left.png" width="25px" height="50px">\
-						<img src="images/arrow-right.png" width="25px" height="50px">\
+						<img src="http://192.168.0.105/images/arrow-left.png" width="25px" height="50px">\
+						<img src="http://192.168.0.105/images/arrow-right.png" width="25px" height="50px">\
 					</div>\
 					<div id="iconsBox">\
 						<ul></ul>&#8203;\
 					</div>\
 					<div id="utilitiesBox">\
-						<img src="images/plus.png" width="50px" height="50px">\
-						<img src="images/save.png" width="50px" height="50px">\
+						<img src="http://192.168.0.105/images/plus.png" width="50px" height="50px">\
+						<img src="http://192.168.0.105/images/save.png" width="50px" height="50px">\
 					</div>\
 				</div>\
 				<div id="svg"></div>\

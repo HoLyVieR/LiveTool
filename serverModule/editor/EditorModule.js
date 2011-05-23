@@ -6,15 +6,43 @@ var assert = require('assert'),
 exports.EditorModule = function () {
 	var self = this;
 	var _methods = {};
+	var _clientProject = {};
 	
+	// The current user joins a project //
+	// Inputs :
+	//  - (int) data - Project ID
 	_methods["joinProject"] = function (data, client) {
+		// If the person is not connected //
+		if (!client.metadata.username) {
+			sendData(client, "authNeeded");
+			return;
+		}
 		
-	};
-	
-	_methods["getProjectData"] = function (data, client) {
 		data = +data;
 		
-		assert.ok(!isNaN(data)); 
+		assert.ok(!isNaN(data), "Missing project ID"); 
+		
+		// If the rooms doesn't exist yet, we create it //
+		if (!_clientProject[data]) {
+			_clientProject[data] = [];
+		}
+		
+		_clientProject[data].push(client.metadata.username);
+	};
+	
+	// Returns the current project data //
+	// Inputs :
+	//  - (int) data - Project ID
+	_methods["getProjectData"] = function (data, client) {
+		// If the person is not connected //
+		if (!client.metadata.username) {
+			sendData(client, "authNeeded");
+			return;
+		}
+		
+		data = +data;
+		
+		assert.ok(!isNaN(data), "Missing project ID"); 
 		
 		// If the personn is not authentified //
 		if (!client.metadata.username) {
@@ -57,9 +85,36 @@ exports.EditorModule = function () {
 		});
 	};
 	
-	
+	// Returns a list of peers that are connected to a project //
+	// Inputs :
+	//  - (int) data - Project ID
 	_methods["getPeer"] = function (data, client) {
+		// If the person is not connected //
+		if (!client.metadata.username) {
+			sendData(client, "authNeeded");
+			return;
+		}
 		
+		data = +data;
+		
+		assert.ok(!isNaN(data), "Missing project ID"); 
+		
+		var clientList = _clientProject[data],
+			nbClient = clientList.length;
+		
+		// You can get the connected peer once you are connected //
+		if (clientList.indexOf(client.metadata.username)) {
+			sendData(client, "notEnoughPriviledge");
+			return;
+		}
+		
+		if (nbClient > 0) {
+			for (var i=0; i<nbClient; i++) {
+				
+			}
+		} else {
+			sendData(client, "projectPeerList", []);
+		}
 	};
 	
 	// Send data to a specific client for a specific method //
@@ -87,5 +142,7 @@ exports.EditorModule = function () {
 	self.connect = function (client) {}
 	
 	// Callback when someone disconnect //
-	self.disconnect = function (client) {}
+	self.disconnect = function (client) {
+			
+	}
 };

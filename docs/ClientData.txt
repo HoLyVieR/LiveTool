@@ -1,0 +1,11 @@
+Clients
+-------
+
+	// Client information that is visible to all users //
+	metadata
+		(string) metadata.username - The user name of the current person.
+		
+	// Client information that is available only to the server //
+	privdata
+		(bool) privdata.isAuth - If the person is authenticated
+		

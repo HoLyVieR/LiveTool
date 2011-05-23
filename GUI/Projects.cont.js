@@ -20,6 +20,8 @@
 			_methods["projectCreated"]    = function () { self.projectCreated.apply(self, arguments); };
 			_methods["listProject"] = function () { self.listProject.apply(self, arguments); };
 			_methods["authNeeded"]   = function () { self.authNeeded.apply(self, arguments); };
+			_methods["notEnoughPriviledge"]   = function () { self.notEnoughPriviledge.apply(self, arguments); };
+			_methods["contributorAdded"]   = function () { self.contributorAdded.apply(self, arguments); };
 			
 			this.connection.register({
 				name : "PROJECT",
@@ -36,6 +38,7 @@
 			// Event binding of the view //
 			this.view.bind("createProject", function () { self.createProject.apply(self, arguments); });
 			this.view.bind("gotoProject", function () { self.gotoProject.apply(self, arguments); });
+			this.view.bind("addContributor", function () { self.addContributor.apply(self, arguments); });
 		},
 		
 		gotoProject : function (id) {
@@ -44,7 +47,27 @@
 			});
 		},
 		
+		createProject : function () {
+			var projectName = prompt("Name of the project");
+			
+			if (projectName) {
+				this.connection.sendData("PROJECT", { methodName : "createProject", data : projectName });
+			}
+		},
+		
 		projectCreated : function () {
+			// Refresh the project list //
+			this.connection.sendData("PROJECT", { methodName : "listProject" });
+		},
+		
+		addContributor : function (projectId, name, hasAdmin, hasWrite, hasRead) {
+			var permission = (+!!hasAdmin * 4) + (+!!hasWrite * 2) + (+!!hasRead); 
+			
+			this.connection.sendData("PROJECT", { methodName : "addContributor", data : {name : name, permission : permission, id : projectId} });
+		},
+		
+		contributorAdded : function () {
+			// Refresh the project list //
 			this.connection.sendData("PROJECT", { methodName : "listProject" });
 		},
 		
@@ -58,10 +81,8 @@
 			});
 		},
 		
-		createProject : function () {
-			var projectName = prompt("Nom du projet");
-			
-			this.connection.sendData("PROJECT", { methodName : "createProject", data : projectName });
+		notEnoughPriviledge : function () {
+			alert("You need more priviledge to do this action.");
 		},
 		
 		showProjects : function () {

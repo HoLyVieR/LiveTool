@@ -8,6 +8,10 @@ exports.AuthModule = function () {
 	var self = this;
 	var _methods = {};
 
+	// Attempt to login with a username and a password //
+	// Inputs :
+	//  - (string) data.username - Username
+	//  - (string) data.password - Password
 	_methods["login"] = function (data, client) {
 		assert.ok(!!data.username, "Missing username");
 		assert.ok(!!data.password, "Missing password");
@@ -31,6 +35,10 @@ exports.AuthModule = function () {
 		});
 	};
 	
+	// Creates an account //
+	// Inputs :
+	//  - (string) data.username - Username
+	//  - (string) data.password - Password
 	_methods["createAccount"] = function (data, client) {
 		assert.ok(!!data.username, "Missing username");
 		assert.ok(!!data.password, "Missing password");
@@ -44,8 +52,6 @@ exports.AuthModule = function () {
 		var hashPassword = hash.sha256(data.password);
 		
 		redis.GET("user:" + data.username + ":password", function (err, obj) {
-			logger.trace(JSON.stringify(obj));
-			
 			if (obj == null) {
 				redis.SET("user:" + data.username + ":password", hashPassword);
 				client.privdata.isAuth = true;

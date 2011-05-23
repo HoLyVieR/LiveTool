@@ -45,17 +45,22 @@ exports.Manager = function () {
 			}
 			
 			client.on('message', function(data) {
-				logger.trace(data);
+				logger.trace("Receiving : " +data);
 				
 				var packet = JSON.parse(data);
 				
-				assert.ok(!!packet.module, "Invalid packet data");
-				assert.ok(!!packet.data, "Invalid packet data");
-				
-				var mod = _modules[packet.module];
-				
-				if (mod && mod.data) {
-					mod.data(packet.data, client);
+				try {
+					assert.ok(!!packet.module, "Invalid packet data");
+					assert.ok(!!packet.data, "Invalid packet data");
+					
+					var mod = _modules[packet.module];
+					
+					if (mod && mod.data) {
+						mod.data(packet.data, client);
+					}
+				} catch (e) {
+					// If an error occurs during the handling of a module //
+					client.fn.send("ERROR", e);
 				}
 			});
 			 
