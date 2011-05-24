@@ -83,7 +83,12 @@
 			
 			_rtmfp.messageReceive(function (peerID, data) {
 				Logger.trace("RTMFP Message Received : " + JSON.stringify(data));
-				_callbackData(peerID, data);
+				
+				try {
+					_callbackData(peerID, data);
+				} catch (e) {
+					Logger.error(JSON.stringify(e));
+				}
 			});
 			
 			_rtmfp.init();
@@ -143,6 +148,11 @@
 		
 		// Connect to a peerID //
 		self.connect = function (peerID) {
+			// Don't attempt to connect to self //
+			if (peerID === self.peerID()) {
+				return;
+			}
+			
 			self.sendData("RTMFP", { methodName : "peerInfo", data : peerID });
 		};
 		
@@ -218,7 +228,13 @@
 		};
 		
 		_methods["broadcast"] = function (data) {
-			_callbackData(data.origin, data.data);
+			Logger.trace("Data (From Peer) : " + JSON.stringify(data));
+			
+			try {
+				_callbackData(data.origin, data.data);
+			} catch (e) {
+				Logger.error(JSON.stringify(e));
+			}
 		}
 		
 		_methods["connect"] = function (data) {

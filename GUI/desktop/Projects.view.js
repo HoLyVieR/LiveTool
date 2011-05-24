@@ -130,13 +130,13 @@
 				</table>\
 				<br />\
 				<input type="button" value="' + Lang.t("New project") + '" class="new" />');
-			$(this.el).show(1000);
+			$(this.el).show(0);
 		},
 		
 		hide : function (callback) {
 			callback = callback || function () {};
 			
-			$(this.el).hide(1000, callback);
+			$(this.el).hide(0, callback);
 		}
 	});
 })();

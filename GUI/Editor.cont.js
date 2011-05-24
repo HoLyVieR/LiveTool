@@ -26,6 +26,9 @@
 			
 			_methods["getProjectData"]   = function () { self.getProjectData.apply(self, arguments); };
 			_methods["authNeeded"] = function () { self.authNeeded.apply(self, arguments); };
+			_methods["listProjectPeer"] = function () { self.listProjectPeer.apply(self, arguments); };
+			_methods["projectJoined"] = function () { self.projectJoined.apply(self, arguments); };
+			
 			_methods["componentDraw"] = function () { self.peerComponentDraw.apply(self, arguments); };
 			_methods["componentUpdate"] = function () { self.peerComponentUpdate.apply(self, arguments); };
 			
@@ -42,7 +45,7 @@
 			});
 			
 			this.connection.data(function (peerID, data) {
-				Logger.trace("Data (From Peer) : " + JSON.stringify(data));
+				Logger.trace("Data (For Editor, From Peer) : " + JSON.stringify(data));
 					
 				if (_methods[data.methodName]) {
 					_methods[data.methodName](data.data);
@@ -76,15 +79,27 @@
 		},
 		
 		loadEditor : function (id) {
-			this.connection.sendData("EDITOR", 
-				{ methodName : "getProjectData", data : id });
-				
+			this.projectId = id;
+			this.connection.sendData("EDITOR", { methodName : "joinProject", data : id });
 			this.view.render();
+		},
+		
+		projectJoined : function (data) {
+			// We can only get the peer list once we are in the project //
+			this.connection.sendData("EDITOR", { methodName : "getPeer", data : this.projectId });
+			this.connection.sendData("EDITOR", { methodName : "getProjectData", data : this.projectId });
 		},
 		
 		getProjectData : function (data) {
 			var projectData = data.data;
 			var name = data.name;
+		},
+		
+		listProjectPeer : function (data) {
+			// We connect to everything who is in the project //
+			for (var i=0; i<data.length; i++) {
+				this.connection.connect(data[i]);
+			}
 		},
 		
 		authNeeded : function () {

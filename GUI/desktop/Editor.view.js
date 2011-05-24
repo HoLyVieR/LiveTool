@@ -2,7 +2,8 @@
 	JS.namespace("GUI.view");
 	
 	var Lang = JS.include("lang.Lang"),
-		Logger = JS.include("logger.Logger");
+		Logger = JS.include("logger.Logger"),
+		GenericComponent = JS.include("component.Component");
 		
 	GUI.view.Editor = Backbone.View.extend({
 		events : {
@@ -134,6 +135,8 @@
 			// Only stop if something was being draw //
 			if (this.currentDraw) {
 				this.currentDraw.draw();
+				
+				// Callback to the controller //
 				this.trigger("componentDrawEnd", this.currentDraw);
 				
 				// Register the new elements //
@@ -146,8 +149,8 @@
 		},
 		
 		drawComponent : function (component) {
-			var comp = new component.Component();
-			comp.unserialize(this.drawZone, component);
+			var comp = new GenericComponent();
+			comp = comp.unserialize(this.drawZone, component);
 			comp.draw();
 		},
 		
@@ -220,7 +223,7 @@
 		hide : function (callback) {
 			callback = callback || function () {};
 			
-			$(this.el).hide(1000, callback);
+			$(this.el).hide(0, callback);
 		}
 	});
 })();

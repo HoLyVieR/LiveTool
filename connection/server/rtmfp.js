@@ -11,6 +11,10 @@ exports.RTMFPManager = function () {
 	var _nextId = 0;
 	
 	// Setting the methods supported by the module //
+	
+	// Return the information of a peer //
+	// Input :
+	//  - (string) data - Peer ID
 	_methods["peerInfo"] = function (data, client) {
 		logger.trace("Getting peer info of " + JSON.stringify(data));
 		
@@ -23,6 +27,9 @@ exports.RTMFPManager = function () {
 		}
 	};
 	
+	// Return the list of all the peer connected to the server //
+	// Input :
+	//  - (null) data
 	_methods["peerList"] = function (data, client) {
 		var peers = [];
 		
@@ -33,10 +40,16 @@ exports.RTMFPManager = function () {
 		sendData(client, "peerList", peers);
 	};
 	
+	// Defines the RTMFP id of the client //
+	// Input :
+	//  - (string) data - Peer ID
 	_methods["setPeerID"] = function (data, client) {
 		client.metadata.id = data;
 	};
 	
+	// Defines if the client supports RTMFP //
+	// Input :
+	//  - (boolean) data - If RTMFP is supported
 	_methods["setRTMFPSupport"] = function (data, client) {
 		client.metadata.supportRTMFP = !!data;
 		
@@ -46,6 +59,10 @@ exports.RTMFPManager = function () {
 		}
 	};
 	
+	// Routes a request to an other peer //
+	// Input :
+	//  - (array)  data.peers - List of the peers to send the data to
+	//  - (object) data.data  - Packet data
 	_methods["route"] = function (data, client) {
 		logger.trace(JSON.stringify(data));
 		

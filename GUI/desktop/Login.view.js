@@ -35,7 +35,7 @@
 		hide : function (callback) {
 			callback = callback || function () {};
 			
-			$(this.el).hide(1000, callback);
+			$(this.el).hide(0, callback);
 		},
 		
 		setValidator : function (validator) {
@@ -78,7 +78,7 @@
 				</form>\
 				<span class="message"></span>');
 			
-			$(this.el).show(1000);
+			$(this.el).show(0);
 			$("form", this.el).submit(function () { return false; });
 			
 			return this;

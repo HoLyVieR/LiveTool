@@ -7,6 +7,7 @@ exports.EditorModule = function () {
 	var self = this;
 	var _methods = {};
 	var _clientProject = {};
+	var _peerPool = [];
 	
 	// The current user joins a project //
 	// Inputs :
@@ -27,7 +28,9 @@ exports.EditorModule = function () {
 			_clientProject[data] = [];
 		}
 		
-		_clientProject[data].push(client.metadata.username);
+		_clientProject[data].push(client.metadata.id);
+		
+		sendData(client, "projectJoined");
 	};
 	
 	// Returns the current project data //
@@ -99,21 +102,14 @@ exports.EditorModule = function () {
 		
 		assert.ok(!isNaN(data), "Missing project ID"); 
 		
-		var clientList = _clientProject[data],
-			nbClient = clientList.length;
+		var clientList = _clientProject[data];
 		
-		// You can get the connected peer once you are connected //
-		if (clientList.indexOf(client.metadata.username)) {
+		// You can get the connected peer once you are connected //	
+		if (clientList.indexOf(client.metadata.id) === -1) {
 			sendData(client, "notEnoughPriviledge");
 			return;
-		}
-		
-		if (nbClient > 0) {
-			for (var i=0; i<nbClient; i++) {
-				
-			}
 		} else {
-			sendData(client, "projectPeerList", []);
+			sendData(client, "listProjectPeer", clientList);
 		}
 	};
 	
@@ -136,13 +132,32 @@ exports.EditorModule = function () {
 		if (_methods[methodName]) {
 			_methods[methodName](data.data, client);
 		}
-	}
+	};
 	
 	// Callback when a connection is received //
-	self.connect = function (client) {}
+	self.connect = function (client) {
+		// Adding the client to the pool // 
+		_peerPool.push(client);
+	};
 	
 	// Callback when someone disconnect //
 	self.disconnect = function (client) {
+		var pos = _peerPool.indexOf(client);
+		assert.ok(pos != -1, "Client is not in peer pool.");
+		
+		// Delete the variable and it's content from the peer pool //
+		delete _peerPool[pos];
+		_peerPool = _peerPool.slice(0, pos).concat(_peerPool.slice(pos + 1));
+		
+		// Delete all connection in the project client pool //
+		var project, clientPos;
+		
+		for (project in _clientProject) {
+			clientPos = _clientProject[project].indexOf(client.metadata.id);
 			
-	}
+			if (clientPos != -1) {
+				_clientProject[project].splice(clientPos, 1);
+			}
+		}
+	};
 };

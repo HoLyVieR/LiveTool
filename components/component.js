@@ -1,6 +1,8 @@
 ;(function () {
 	JS.namespace("component");
 	
+	var Logger = JS.include("logger.Logger");
+	
 	component.Component = function () {
 		var self = this;
 		
@@ -11,24 +13,26 @@
 		var _type;
 		
 		self.serialize = function () {
-			var tempObject = $.extend(true, {
+			var tempObject = $.extend(true, self, {
 				"type" : self.type(),
 				"startPoint" : self.startPoint(),
 				"endPoint" : self.endPoint(),
-			}, self);
+				"GUID" : self.GUID()
+			});
 			
 			return JSON.stringify(tempObject);
 		};
 		
 		self.unserialize = function (drawZone, str) {
 			var obj = JSON.parse(str);
-			var comp = component[obj.type].createObject(drawZone);
+			var comp = (new component[obj.type]()).createObject(drawZone);
 			
 			comp.type(obj.type);
 			comp.startPoint(obj.startPoint);
 			comp.endPoint(obj.endPoint);
+			comp.GUID(obj.GUID);
 			
-			self = comp;
+			return comp;
 		};
 		
 		self.GUID = function (GUID) {

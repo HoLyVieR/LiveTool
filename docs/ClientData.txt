@@ -4,6 +4,7 @@ Clients
 	// Client information that is visible to all users //
 	metadata
 		(string) metadata.username - The user name of the current person.
+		(string) metadata.id - RTMFP id or an id that was assigned by the server. 
 		
 	// Client information that is available only to the server //
 	privdata

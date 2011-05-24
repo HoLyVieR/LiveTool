@@ -35,6 +35,11 @@
 		<script src="http://192.168.0.105/connection/client/rtmfp.js" type="text/javascript"></script>
 		<script src="http://192.168.0.105/connection/client/manager.js" type="text/javascript"></script>
 		
+		<!-- Component for the Editor -->
+		<script src="http://192.168.0.105/components/component.js" type="text/javascript"></script>
+		<script src="http://192.168.0.105/components/line.comp.js" type="text/javascript"></script>
+		<script src="http://192.168.0.105/components/square.comp.js" type="text/javascript"></script>
+		
 		<!-- GUI -->
 		<script src="http://192.168.0.105/GUI/desktop/util/Popup.js" type="text/javascript"></script>
 		<script src="http://192.168.0.105/GUI/desktop/Login.view.js" type="text/javascript"></script>
@@ -45,20 +50,23 @@
 		<script src="http://192.168.0.105/GUI/Editor.cont.js" type="text/javascript"></script>
 		<script src="http://192.168.0.105/GUI/desktop/Error.view.js" type="text/javascript"></script>
 		<script src="http://192.168.0.105/GUI/Error.cont.js" type="text/javascript"></script>
+		
 		<script type="text/javascript">
 			;(function ($) {
 				$("div").hide();
 			
 				$(document).ready(function () {
-					var LoginView     = JS.include("GUI.view.Login");
-					var LoginCont     = JS.include("GUI.controller.Login");
-					var ProjectsView  = JS.include("GUI.view.Projects");
-					var ProjectsCont  = JS.include("GUI.controller.Projects");
-					var ClientManager = JS.include("connection.client.Manager");
-					var EditorView    = JS.include("GUI.view.Editor");
-					var EditorCont    = JS.include("GUI.controller.Editor");
-					var ErrorView     = JS.include("GUI.view.Error");
-					var ErrorCont     = JS.include("GUI.controller.Error");
+					var ClientManager   = JS.include("connection.client.Manager");
+					var LoginView       = JS.include("GUI.view.Login");
+					var LoginCont       = JS.include("GUI.controller.Login");
+					var ProjectsView    = JS.include("GUI.view.Projects");
+					var ProjectsCont    = JS.include("GUI.controller.Projects");
+					var EditorView      = JS.include("GUI.view.Editor");
+					var EditorCont      = JS.include("GUI.controller.Editor");
+					var ErrorView       = JS.include("GUI.view.Error");
+					var ErrorCont       = JS.include("GUI.controller.Error");
+					var LineComponent   = JS.include("component.Line");
+					var SquareComponent = JS.include("component.Square");
 					
 					// Initialize the server connection //
 					var manager = ClientManager();
@@ -75,6 +83,9 @@
 							
 							var editorView = new EditorView({ el : $("#editor") });
 							var editorCont = new EditorCont({ connection : manager, view : editorView });
+							
+							editorView.addToolbarComponent(new LineComponent());
+							editorView.addToolbarComponent(new SquareComponent());
 							
 							var errorView = new ErrorView();
 							var errorCont = new ErrorCont({ connection : manager, view : errorView });
