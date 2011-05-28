@@ -5,6 +5,7 @@ Clients
 	metadata
 		(string) metadata.username - The user name of the current person.
 		(string) metadata.id - RTMFP id or an id that was assigned by the server. 
+		(int)    metadata.currentProject - Id of the current project the user is in.
 		
 	// Client information that is available only to the server //
 	privdata

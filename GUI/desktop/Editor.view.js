@@ -50,20 +50,33 @@
 			
 			// Initializating the control //
 			var arrows = $("#arrowBox img");
+			var utilities = $("#utilitiesBox img");
 			var scrollPane = $($("#iconsBox ul")[0]);
 			
 			scrollPane.css('left', '0px');
 			
+			// Left arrow //
 			$(arrows[0]).click(function () {
 				scrollPane.css('left', function (index, value) {
 					return parseInt(value) - 50;
 				});
 			});
 			
+			// Right arrow //
 			$(arrows[1]).click(function () {
 				scrollPane.css('left', function (index, value) {
 					return parseInt(value) + 50;
 				});
+			});
+			
+			// Plus button //
+			$(utilities[0]).click(function () {
+				
+			});
+			
+			// Save button //
+			$(utilities[1]).click(function () {
+				self.trigger("saveClick");
 			});
 			
 			$("#svg").mousedown(function (ev) {
@@ -110,6 +123,10 @@
 			});
 		},
 		
+		getAllElements : function () {
+			return this.elements;
+		},
+		
 		/**
 		 * Drawing
 		 */
@@ -148,10 +165,23 @@
 			}
 		},
 		
-		drawComponent : function (component) {
+		drawComponent : function (component, override) {
 			var comp = new GenericComponent();
+			
+			override = (typeof override === "undefined") ? true : override;
 			comp = comp.unserialize(this.drawZone, component);
+			
+			// If the "do not override flag" is on, we don't add the component if it is already there //
+			if (!override) {
+				for (var i=0; i<this.elements.length; i++) {
+					if (this.elements[i].GUID() === comp.GUID()) {
+						return;
+					}
+				}
+			}
+			
 			comp.draw();
+			this.addElement(comp);
 		},
 		
 		/**

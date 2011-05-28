@@ -9,6 +9,24 @@ exports.EditorModule = function () {
 	var _clientProject = {};
 	var _peerPool = [];
 	
+	// Save the current project on the server //
+	// Inputs :
+	//  - (string) data - JSON version of it.
+	_methods["saveProject"] = function (data, client) {
+		// If the person is not connected //
+		if (!client.privdata.isAuth) {
+			sendData(client, "authNeeded");
+			return;
+		}
+		
+		assert.ok(!!client.metadata.currentProject, "You are not in any project");
+		assert.ok(!!data, "No data was provided");
+		
+		redis.SET("project:" + client.metadata.currentProject + ":data", data, function (err, data) {
+			sendData(client, "projectSaved");
+		});
+	};
+	
 	// The current user joins a project //
 	// Inputs :
 	//  - (int) data - Project ID
@@ -29,6 +47,7 @@ exports.EditorModule = function () {
 		}
 		
 		_clientProject[data].push(client.metadata.id);
+		client.metadata.currentProject = data;
 		
 		sendData(client, "projectJoined");
 	};

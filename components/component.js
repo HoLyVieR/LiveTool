@@ -12,8 +12,18 @@
 		var _connection;
 		var _type;
 		
+		function generateGUID() {
+			_GUID = (Math.random() * 0xEFFF + 0x1000) + "-" +
+					(Math.random() * 0xEFFF + 0x1000) + "-" +
+					(Math.random() * 0xEFFF + 0x1000) + "-" +
+					(Math.random() * 0xEFFF + 0x1000) + "-" + 
+					(Math.random() * 0xEFFF + 0x1000) + "-"
+		}
+		
+		generateGUID();
+		
 		self.serialize = function () {
-			var tempObject = $.extend(true, self, {
+			var tempObject = $.extend(true, {}, self, {
 				"type" : self.type(),
 				"startPoint" : self.startPoint(),
 				"endPoint" : self.endPoint(),
