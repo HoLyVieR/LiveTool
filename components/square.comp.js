@@ -6,7 +6,7 @@
 	component.Square = function () {
 		var self = this;
 		
-		self.image = "http://192.168.0.105/images/square.png";
+		self.image = "/images/square.png";
 		self.createObject = function (drawZone) {
 			return new component.SquareElement(drawZone);
 		};

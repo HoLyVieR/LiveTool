@@ -6,7 +6,7 @@
 	component.Line = function () {
 		var self = this;
 		
-		self.image = "http://192.168.0.105/images/line.png";
+		self.image = "/images/line.png";
 		self.createObject = function (drawZone) {
 			return new component.LineElement(drawZone);
 		};

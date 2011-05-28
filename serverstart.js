@@ -1,13 +1,20 @@
 var http = require('http'),
 	  fs = require('fs'),
+ connect = require('./connect/'),
  Manager = require('./connection/server/manager').Manager,
    RTMFP = require('./connection/server/rtmfp').RTMFPManager;
     AUTH = require('./serverModule/auth/AuthModule').AuthModule;
  PROJECT = require('./serverModule/project/ProjectModule').ProjectModule,
   EDITOR = require('./serverModule/editor/EditorModule').EditorModule;
  
+var server = connect.createServer(
+	connect.logger(),
+	connect.static(__dirname)
+);
 
-var server = http.createServer(function(req, res){ 
+server.listen(80);
+ 
+/*var server = http.createServer(function(req, res){ 
 	res.writeHead(200, {'Content-Type': 'text/html'});
  
 	fs.readFile('index.html', function (err, data) {
@@ -15,7 +22,7 @@ var server = http.createServer(function(req, res){
 		res.end(data);
 	});
 });
-server.listen(8080);
+server.listen(8080);*/
 
 var socket = new Manager();
     socket.listen(server);
