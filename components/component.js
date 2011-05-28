@@ -13,11 +13,11 @@
 		var _type;
 		
 		function generateGUID() {
-			_GUID = (Math.random() * 0xEFFF + 0x1000) + "-" +
-					(Math.random() * 0xEFFF + 0x1000) + "-" +
-					(Math.random() * 0xEFFF + 0x1000) + "-" +
-					(Math.random() * 0xEFFF + 0x1000) + "-" + 
-					(Math.random() * 0xEFFF + 0x1000) + "-"
+			_GUID = parseInt(Math.random() * 0xEFFF + 0x1000, 10) + "-" +
+					parseInt(Math.random() * 0xEFFF + 0x1000, 10) + "-" +
+					parseInt(Math.random() * 0xEFFF + 0x1000, 10) + "-" +
+					parseInt(Math.random() * 0xEFFF + 0x1000, 10) + "-" + 
+					parseInt(Math.random() * 0xEFFF + 0x1000, 10) + "-"
 		}
 		
 		generateGUID();
