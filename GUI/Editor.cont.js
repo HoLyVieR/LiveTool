@@ -108,8 +108,10 @@
 			if (!this.isSync) {
 				var elements = JSON.parse(data);
 				
-				for (var i=0; i<elements.length; i++) {
-					this.view.drawComponent(elements[i], true);
+				if (elements) {
+					for (var i=0; i<elements.length; i++) {
+						this.view.drawComponent(elements[i], true);
+					}
 				}
 				
 				this.isSync = true;
@@ -166,8 +168,10 @@
 			var name = data.name;
 			var elements = JSON.parse(projectData);
 			
-			for (var i=0; i<elements.length; i++) {
-				this.view.drawComponent(elements[i], false);
+			if (elements) {
+				for (var i=0; i<elements.length; i++) {
+					this.view.drawComponent(elements[i], false);
+				}
 			}
 		},
 		
