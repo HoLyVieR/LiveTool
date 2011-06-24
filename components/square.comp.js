@@ -2,7 +2,9 @@
 	JS.namespace("component");
 	
 	var ComponentClass = JS.include("component.Component");
-	
+	var Logger = JS.include("logger.Logger");
+    var Movable = JS.include("component.Movable");
+
 	component.Square = function () {
 		var self = this;
 		
@@ -17,8 +19,9 @@
 		var _element;
 		
 		// Parent constructor class //
-		ComponentClass.apply(this);
-		
+		ComponentClass.apply(self);
+		Movable.call(self, drawZone);
+
 		self.type("Square");
 		
 		self.preview = self.draw = function () {

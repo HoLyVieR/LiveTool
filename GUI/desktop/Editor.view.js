@@ -44,6 +44,9 @@
 			this.drawZone = new Raphael($("#svg")[0], 800, 600);
 			var background = this.drawZone.rect(0, 0, 800, 600);
 			background.attr({ fill : "#ffffff" });
+            background.click(function () {
+                self.backgroundClick();
+            });
 			
 			$("#svg").css({ width: 800, height: 600 });
 			
@@ -80,9 +83,11 @@
 			});
 			
 			$("#svg").mousedown(function (ev) {
+                ev.preventDefault();
+
 				var offset = $("#svg").offset();
-				var x = event.pageX - offset.left;
-				var y = event.pageY - offset.top;
+				var x = ev.pageX - offset.left;
+				var y = ev.pageY - offset.top;
 				
 				if (self.currentSelector) {
 					self.drawStart(x, y);
@@ -91,8 +96,8 @@
 			
 			$(document.body).mousemove(function (ev) {
 				var offset = $("#svg").offset();
-				var x = event.pageX - offset.left;
-				var y = event.pageY - offset.top;
+				var x = ev.pageX - offset.left;
+				var y = ev.pageY - offset.top;
 				
 				if (self.currentDraw) {
 					self.drawUpdate(x, y);
@@ -115,18 +120,59 @@
 		elements : [],
 		
 		addElement : function (element) {
-			this.elements.push(element);
+			var self = this;
+
+            this.elements.push(element);
 			
 			// Register the events //
 			element.click(function () {
-				
+				self.elementClick(element);
 			});
 		},
 		
 		getAllElements : function () {
 			return this.elements;
 		},
-		
+
+        /**
+               * Element events
+               */
+
+        currentFocus : void 0,
+
+        elementClick : function (element) {
+            if (this.currentFocus != element) {
+
+                // Blur the previous focus element //
+                if (this.currentFocus) {
+                    this.elementBlur(this.currentFocus);
+                }
+
+                this.elementFocus(element);
+                this.currentFocus = element;
+            }
+        },
+
+        backgroundClick : function () {
+            if (this.currentFocus) {
+                this.elementBlur(this.currentFocus);
+                this.currentFocus = void 0;
+            }
+        },
+
+        /**
+               * Post-drawing interaction
+               */
+
+        elementFocus : function (element) {
+            element.trigger("focus");
+
+        },
+
+        elementBlur : function (element) {
+            element.trigger("blur");  
+        },
+
 		/**
 		 * Drawing
 		 */
@@ -135,7 +181,12 @@
 			if (this.currentDraw) {
 				this.drawStop();
 			}
-		
+
+            // Ignore drawStart event if there is no tool selected //
+            if (!this.currentSelector) {
+                return;
+            }
+
 			this.currentDraw = this.currentSelector.createObject(this.drawZone, this.controller);
 			this.currentDraw.startPoint({ x : x, y : y });
 			this.currentDraw.endPoint({ x : x, y : y });

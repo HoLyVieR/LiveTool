@@ -11,6 +11,7 @@
 		var _GUID;
 		var _connection;
 		var _type;
+        var _eventHandler = {};
 		
 		function generateGUID() {
 			_GUID = parseInt(Math.random() * 0xEFFF + 0x1000, 10) + "-" +
@@ -54,6 +55,33 @@
 			if (!type) return _type;
 			_type = type;
 		};
+
+        // Event handling for the components //
+        self.trigger = function (eventName, args) {
+            args = [].slice.call(arguments, 1, arguments.length - 1);
+
+            // Check if there are any listener for that event first //
+            if (_eventHandler[eventName] && _eventHandler[eventName].length > 0) {
+
+                // Call all the listener //
+                for (var i=0, len = _eventHandler[eventName].length; i<len; i++) {
+                    try {
+                        _eventHandler[eventName][i].apply(null, args);
+                    } catch (e) {
+                        // Make sure an error won't break everything, but log the error at least //
+                        Logger.error(e);
+                    }
+                }
+            }
+        };
+
+        self.bind = function (eventName, callback) {
+            if (!_eventHandler[eventName]) {
+                _eventHandler[eventName] = [];
+            }
+            
+            _eventHandler[eventName].push(callback);
+        }
 		
 		// Allow generic event binding //
 		var supportedEvent = ["click", "mouseup", "mousedown", "mousemove"];
