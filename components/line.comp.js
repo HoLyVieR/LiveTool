@@ -3,7 +3,7 @@
 	
 	var ComponentClass = JS.include("component.Component");
 	var Logger = JS.include("logger.Logger");
-	var Movable = JS.include("component.Movable");
+	var Resizable = JS.include("component.Resizable");
 
 	component.Line = function () {
 		var self = this;
@@ -20,11 +20,11 @@
 		
 		// Parent constructor class //
 		ComponentClass.apply(self);
-		Movable.call(self, drawZone);
+		Resizable.call(self, drawZone);
 		
 		self.type("Line");
 		
-		self.preview = self.draw = function () {
+		self.redraw = self.preview = self.draw = function () {
 			repaint();
 		};
 		
@@ -45,6 +45,8 @@
 				"M" + self.startPoint().x + " " + self.startPoint().y + 
 				"L" + self.endPoint().x +   " " + self.endPoint().y);
 			_element.attr({ "stroke-width" : "2px", "stroke" : "#000000" });
+
+            self.notifyChange();
 		}
 	};
 })();

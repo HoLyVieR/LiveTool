@@ -128,6 +128,10 @@
 			element.click(function () {
 				self.elementClick(element);
 			});
+
+            element.bind("changed", function (){
+                Logger.trace(element.GUID() + " has changed");
+            });
 		},
 		
 		getAllElements : function () {

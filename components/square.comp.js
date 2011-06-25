@@ -3,7 +3,7 @@
 	
 	var ComponentClass = JS.include("component.Component");
 	var Logger = JS.include("logger.Logger");
-    var Movable = JS.include("component.Movable");
+    var Resizable = JS.include("component.Resizable");
 
 	component.Square = function () {
 		var self = this;
@@ -20,11 +20,11 @@
 		
 		// Parent constructor class //
 		ComponentClass.apply(self);
-		Movable.call(self, drawZone);
+		Resizable.call(self, drawZone);
 
 		self.type("Square");
 		
-		self.preview = self.draw = function () {
+		self.redraw = self.preview = self.draw = function () {
 			repaint();
 		};
 		
@@ -50,6 +50,8 @@
 				smallestX, smallestY,
 				biggestX - smallestX, biggestY - smallestY);
 			_element.attr({ "stroke-width" : "2px", "stroke" : "#000000", "fill" : "#ffffff"  });
+
+            self.notifyChange();
 		}
 	};
 })();

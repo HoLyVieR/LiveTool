@@ -84,15 +84,29 @@
         }
 		
 		// Allow generic event binding //
-		var supportedEvent = ["click", "mouseup", "mousedown", "mousemove"];
-		
-		for (var i=0; i<supportedEvent.length; i++) {
-			(function (event) {
-				self[event] = function (fnct) {
-					(self.element())[event](fnct);
-				};
-			})(supportedEvent[i]);
-		};
+		var _supportedEvent = ["click", "mouseup", "mousedown", "mousemove"];
+
+        function addEventSupport(event) {
+            self[event] = function (fnct) {
+                self.bind(event, fnct);
+            };
+        }
+
+        function bindSupportedEvent(element) {
+            for (var i=0; i<_supportedEvent.length; i++) {
+                (function (event) {
+                    element[event](function () {
+                        var args = [].splice.call(arguments, 0); // Convert "arguments" fake-array to real-array
+
+                        self.trigger.apply(null, [event].concat(args));
+                    });
+                }(_supportedEvent[i]));
+            }
+        }
+
+		for (var i=0; i<_supportedEvent.length; i++) {
+			addEventSupport(_supportedEvent[i]);
+		}
 		
 		// Define/Read the start point of the element  //
 		self.startPoint = function (startPoint) {
@@ -113,9 +127,11 @@
 			_connection = connection;
 		};
 		
-		// Notify everything of the update to an element //
-		self.notifyUpdate = function () {
-			_connection.broadcast();
+		// Notification received when the element changed //
+		self.notifyChange = function () {
+
+            // Rebind the events //
+            bindSupportedEvent(self.element());
 		};
 	};
 })();
