@@ -22,7 +22,8 @@
 		}
 		
 		generateGUID();
-		
+
+        // Base implementation of the serializable of a component //
 		self.serialize = function () {
 			var tempObject = $.extend(true, {}, self, {
 				"type" : self.type(),
@@ -33,7 +34,8 @@
 			
 			return JSON.stringify(tempObject);
 		};
-		
+
+        // Base implementation of the deserializable of a component //
 		self.unserialize = function (drawZone, str) {
 			var obj = JSON.parse(str);
 			var comp = (new component[obj.type]()).createObject(drawZone);
@@ -45,6 +47,23 @@
 			
 			return comp;
 		};
+
+        // Base implementation of the update of a component //
+        self.update = function (newComponent) {
+            self.type(newComponent.type());
+            self.startPoint(newComponent.startPoint());
+			self.endPoint(newComponent.endPoint());
+			self.GUID(newComponent.GUID());
+            
+            self.redraw();
+        };
+
+        // Base implementation of the destroy //
+        self.destroy = function () {
+            var element =  self.element().node;
+
+            element.parentNode.removeChild(element);
+        };
 		
 		self.GUID = function (GUID) {
 			if (!GUID) return _GUID;
@@ -113,7 +132,6 @@
 			if (!startPoint) return _startPoint;
 			_startPoint = startPoint;
 		};
-		
 		
 		// Define/Read the end point of the element //
 		self.endPoint = function (endPoint) {

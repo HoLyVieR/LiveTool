@@ -130,6 +130,7 @@
 			});
 
             element.bind("changed", function (){
+                self.trigger("componentUpdate", element);
                 Logger.trace(element.GUID() + " has changed");
             });
 		},
@@ -225,19 +226,48 @@
 			
 			override = (typeof override === "undefined") ? true : override;
 			comp = comp.unserialize(this.drawZone, component);
-			
-			// If the "do not override flag" is on, we don't add the component if it is already there //
-			if (!override) {
-				for (var i=0; i<this.elements.length; i++) {
-					if (this.elements[i].GUID() === comp.GUID()) {
-						return;
-					}
-				}
-			}
+
+            for (var i=0; i<this.elements.length; i++) {
+                if (this.elements[i].GUID() === comp.GUID()) {
+
+                    if (override) {
+                        // If the component exist we update instead of add //
+                        this.updateComponent(component);
+                        return;
+                        
+                    } else {
+                        // If the override flag is off, we don't add the component if it is already there //
+                        comp.destroy();
+                        return;
+                    }
+                }
+            }
 			
 			comp.draw();
 			this.addElement(comp);
 		},
+
+        updateComponent : function (component) {
+            var comp = new GenericComponent();
+            var found = false;
+            
+            comp = comp.unserialize(this.drawZone, component);
+
+            // Find the element to update //
+            for (var i=0; i<this.elements.length; i++) {
+                if (this.elements[i].GUID() === comp.GUID()) {
+                    this.elements[i].update(comp);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                Logger.trace("Unable to update component " + comp.GUID());
+            }
+
+            comp.destroy();
+        },
 		
 		/**
 		 * Toolbar

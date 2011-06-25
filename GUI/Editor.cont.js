@@ -66,7 +66,10 @@
 		
 		// Callback when a component is updated  //
 		componentUpdate : function (component) {
-			
+			this.connection.broadcast({
+				"methodName" : "componentUpdate",
+				"data" : component.serialize()
+			});
 		},
 		
 		// Callback for the save button //
@@ -105,6 +108,8 @@
 		
 		// When we receive synchronisation data //
 		syncProjectData : function (data) {
+
+            // Don't update if we got the data already //
 			if (!this.isSync) {
 				var elements = JSON.parse(data);
 				
@@ -141,7 +146,7 @@
 		
 		// When a peer updates a component //
 		peerComponentUpdate : function (component) {
-			
+			this.view.drawComponent(component);
 		},
 		
 		loadEditor : function (id) {
