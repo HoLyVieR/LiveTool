@@ -12,6 +12,7 @@
         var _box;
         var _nw, _ne, _sw, _se; // Reference to element of _box, but based their visual position
         var _currentDrag;
+        var _hasFocus = false;
 
         // Handle for the drag & drop of the corner that resize the element //
         function cornerDragStart() {
@@ -68,13 +69,14 @@
 
             updateElementPoint();
             self.preview();
-            updateCorner()
+            updateCorner();
         }
 
         function cornerDragEnd() {
             updateElementPoint();
             self.redraw();
             updateCorner();
+            _currentDrag = void 0;
             self.trigger("changed");
         }
 
@@ -160,9 +162,8 @@
             _se.attr({ cursor : "se-resize" });
         }
 
-        initCorner();
-
-        self.bind("focus", function () {
+        // Move the boxes at the proper place //
+        function refreshBoxPosition() {
             var sp = self.startPoint();
             var ep = self.endPoint();
 
@@ -170,12 +171,26 @@
             _box[1].attr({x : sp.x - (BOX_SIZE / 2), y : ep.y - (BOX_SIZE / 2)});
             _box[2].attr({x : ep.x - (BOX_SIZE / 2), y : ep.y - (BOX_SIZE / 2)});
             _box[3].attr({x : ep.x - (BOX_SIZE / 2), y : sp.y - (BOX_SIZE / 2)});
+        }
 
+        initCorner();
+
+        self.bind("elementChanged", function () {
+            if (_hasFocus) {
+                refreshBoxPosition();
+                showCorner();
+            }
+        });
+
+        self.bind("focus", function () {
+            refreshBoxPosition();
             showCorner();
+            _hasFocus = true;
         });
 
         self.bind("blur", function () {
             hideCorner();
+            _hasFocus = false;
         });
     };
 }());

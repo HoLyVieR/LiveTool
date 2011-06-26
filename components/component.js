@@ -60,9 +60,12 @@
 
         // Base implementation of the destroy //
         self.destroy = function () {
-            var element =  self.element().node;
+            // Check if the element exist in first place
+            if (self.element()) {
+                var element =  self.element().node;
 
-            element.parentNode.removeChild(element);
+                element.parentNode.removeChild(element);
+            }
         };
 		
 		self.GUID = function (GUID) {
@@ -75,9 +78,11 @@
 			_type = type;
 		};
 
-        // Event handling for the components //
+        /* Event handling for the components */
+
+        // Trigger an event //
         self.trigger = function (eventName, args) {
-            args = [].slice.call(arguments, 1, arguments.length - 1);
+            args = [].slice.call(arguments, 1, arguments.length);
 
             // Check if there are any listener for that event first //
             if (_eventHandler[eventName] && _eventHandler[eventName].length > 0) {
@@ -94,13 +99,41 @@
             }
         };
 
+        // Add a listener  //
+        // You can specify multiple event name by using the following synthax : //
+        // obj.bind("click, mousedown, mouseup", function () {}); //
         self.bind = function (eventName, callback) {
-            if (!_eventHandler[eventName]) {
-                _eventHandler[eventName] = [];
+            if (typeof callback !== "function") {
+                throw new TypeError("Callback must be a function");
             }
-            
-            _eventHandler[eventName].push(callback);
+
+            var names = eventName.split(", ");
+
+            for (var i=0, len=names.length; i<len; i++) {
+                eventName = names[i];
+
+                if (!_eventHandler[eventName]) {
+                    _eventHandler[eventName] = [];
+                }
+
+                _eventHandler[eventName].push(callback);
+            }
         }
+
+        // Remove a listener //
+        self.unbind = function (eventName, callback) {
+            
+            // Checks if there is are event handler for that event //
+            if (_eventHandler[eventName]) {
+                for (var i=0, len = _eventHandler[eventName].length; i< len; i++) {
+
+                    // When we find the event handler we remove it //
+                    if (_eventHandler[eventName][i] === callback) {
+                        _eventHandler[eventName].splice(i, 1);
+                    }
+                }
+            }
+        };
 		
 		// Allow generic event binding //
 		var _supportedEvent = ["click", "mouseup", "mousedown", "mousemove"];
@@ -144,12 +177,10 @@
 			if (!connection) return _connection;
 			_connection = connection;
 		};
-		
-		// Notification received when the element changed //
-		self.notifyChange = function () {
 
+        self.bind("elementChanged", function () {
             // Rebind the events //
             bindSupportedEvent(self.element());
-		};
+        });
 	};
 })();

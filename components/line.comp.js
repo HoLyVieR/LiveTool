@@ -4,6 +4,7 @@
 	var ComponentClass = JS.include("component.Component");
 	var Logger = JS.include("logger.Logger");
 	var Resizable = JS.include("component.Resizable");
+    var BaseComponent = JS.include("component.BaseComponent");
 
 	component.Line = function () {
 		var self = this;
@@ -19,8 +20,8 @@
 		var _element;
 		
 		// Parent constructor class //
-		ComponentClass.apply(self);
-		Resizable.call(self, drawZone);
+		ComponentClass.call(self);
+		BaseComponent.call(self, drawZone);
 		
 		self.type("Line");
 		
@@ -46,7 +47,7 @@
 				"L" + self.endPoint().x +   " " + self.endPoint().y);
 			_element.attr({ "stroke-width" : "2px", "stroke" : "#000000" });
 
-            self.notifyChange();
+            self.trigger("elementChanged");
 		}
 	};
 })();

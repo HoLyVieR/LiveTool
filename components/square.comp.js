@@ -4,6 +4,7 @@
 	var ComponentClass = JS.include("component.Component");
 	var Logger = JS.include("logger.Logger");
     var Resizable = JS.include("component.Resizable");
+    var BaseComponent = JS.include("component.BaseComponent");
 
 	component.Square = function () {
 		var self = this;
@@ -20,7 +21,7 @@
 		
 		// Parent constructor class //
 		ComponentClass.apply(self);
-		Resizable.call(self, drawZone);
+		BaseComponent.call(self, drawZone);
 
 		self.type("Square");
 		
@@ -51,7 +52,7 @@
 				biggestX - smallestX, biggestY - smallestY);
 			_element.attr({ "stroke-width" : "2px", "stroke" : "#000000", "fill" : "#ffffff"  });
 
-            self.notifyChange();
+            self.trigger("elementChanged");
 		}
 	};
 })();

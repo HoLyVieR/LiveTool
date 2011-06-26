@@ -7,7 +7,7 @@
 	}
 	
 	// Default output //
-	var _output = function (msg) { console.log(msg); }; 
+	var _output = function (msg) { console.log(msg); }; // Create a wrap function because some browser don't like to do reference to console.log //
 	
 	logger.Logger = {};
 	
@@ -27,6 +27,10 @@
 	
 	// public static void error (str) //
 	logger.Logger.error = function (message) {
-		_output("Error : " + message);
+        _output("Error : " + message);
+
+        if (message && message.stack) {
+            _output(message.stack);
+        }
 	};
 })();
