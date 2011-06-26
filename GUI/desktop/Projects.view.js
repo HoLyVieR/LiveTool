@@ -7,13 +7,18 @@
 	
 	GUI.view.Projects = Backbone.View.extend({
 		events : {
-			"click .new" : "btnNewClick"
+			"click .new" : "btnNewClick",
+            "click .refresh" : "btnRefreshClick"
 		},
 		
 		btnNewClick : function () {
 			this.trigger("createProject");
 		},
-		
+
+        btnRefreshClick : function () {
+            this.trigger("refreshProject");
+        },
+
 		projectNameClick : function (id) {
 			this.trigger("gotoProject", id);
 		},
@@ -97,7 +102,7 @@
 							"</td>" +
 						"</tr>" +
 					"</table>" +
-					"<input type='button' value='Add' class='addBtn' />" +
+					"<input type='button' value='Add' class='addBtn' />&#160;" +
 					"<input type='button' value='Cancel' class='cancelBtn' />" +
 				"</div>")[0];
 			
@@ -129,7 +134,9 @@
 					<tr><td><b>' + Lang.t("Loading ...") + '</b></td></tr>\
 				</table>\
 				<br />\
-				<input type="button" value="' + Lang.t("New project") + '" class="new" />');
+				<input type="button" value="' + Lang.t("New project") + '" class="new" />\
+                <input type="button" value="' + Lang.t("Refresh") + '" class="refresh" />');
+
 			$(this.el).show(0);
 		},
 		

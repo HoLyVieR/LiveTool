@@ -1,0 +1,23 @@
+This is the list of all the events that you can trigger or bind. It also describes what the event means
+and when it should be triggered.
+
+Components
+    Event that are used for all the object that extends Components.
+
+    DOM events :
+        - click
+        - mousedown
+        - mousemove
+        - mouseup
+
+    Other events :
+        - changed :
+                Triggered when an element permenantly changed and is not in process of changing. This is
+                triggered when a transformation ends.
+
+        - elementChanged :
+                Triggered when the DOM element that is associated with the component changed. It is typically
+                triggered after a redraw, preview or draw depending if the component had to destroy and rebuild
+                itself.
+
+        -

@@ -37,6 +37,7 @@
 			
 			// Event binding of the view //
 			this.view.bind("createProject", function () { self.createProject.apply(self, arguments); });
+            this.view.bind("refreshProject", function () { self.refreshProject.apply(self, arguments); });
 			this.view.bind("gotoProject", function () { self.gotoProject.apply(self, arguments); });
 			this.view.bind("addContributor", function () { self.addContributor.apply(self, arguments); });
 		},
@@ -74,7 +75,11 @@
 		listProject : function (projects) {
 			this.view.setProjects(projects);
 		},
-		
+
+        refreshProject : function () {
+            this.showProjects();
+        },
+
 		authNeeded : function () {
 			this.view.hide(function () {
 				window.location.hash = "#";

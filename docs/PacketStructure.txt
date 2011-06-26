@@ -1,3 +1,5 @@
+This describes the structure of the information exchanged between the client/server and client/client.
+
 Structure of the packet client/server :
 
 {
@@ -9,7 +11,7 @@ Structure of the packet client/server :
 	}
 }
 
-Structure of the packet client/client (broadcast) for editor :
+Structure of the packet client/client (broadcast) for the editor :
 
 {
 	methodName : "methodName",

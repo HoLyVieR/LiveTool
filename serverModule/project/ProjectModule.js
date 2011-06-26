@@ -13,7 +13,7 @@ exports.ProjectModule = function () {
 		assert.ok(!!data, "Missing project name");
 		
 		// If the person is not connected //
-		if (!client.metadata.username) {
+		if (!client.privdata.isAuth) {
 			sendData(client, "authNeeded");
 			return;
 		}
@@ -32,7 +32,7 @@ exports.ProjectModule = function () {
 	//  - (null) data
 	_methods["listProject"] = function (data, client) {
 		// If the person is not connected //
-		if (!client.metadata.username) {
+		if (!client.privdata.isAuth) {
 			sendData(client, "authNeeded");
 			return;
 		}
@@ -41,19 +41,23 @@ exports.ProjectModule = function () {
 		redis.ZRANGE("user:" + client.metadata.username + ":projects", 0, -1, function (err, obj) {
 			var nbProject = obj.length,
 				projects = [];
-			
+
+            // Called when a project information is fully loaded //
 			function projectInfoLoaded(id, projectName, contributors) {
 				projects.push({ name : projectName, id :  id, contributors : contributors});
-				
+
+                // Waits for all the project to be loaded before sending the data back to client //
 				if (projects.length == nbProject) {
 					sendData(client, "listProject", projects);
 				}
 			}
-			
+
+            // Do all the request to load the information of a project //
 			function getProjectInfo(id) {
 				var projectName,
 					contributors;
-			
+
+                // Load the project name //
 				redis.GET("project:" + id + ":name", function (err, obj) {
 					projectName = obj;
 					
@@ -61,7 +65,8 @@ exports.ProjectModule = function () {
 						projectInfoLoaded(id, projectName, contributors);
 					}
 				});
-				
+
+                // Load the contributor list //
 				redis.HGETALL("project:" + id + ":user", function (err, obj) {
 					contributors = obj;
 					

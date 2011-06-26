@@ -1,5 +1,10 @@
-Clients
--------
+This is the description of the information that is accessible on client object and that is shared accross
+the application.
+
+    // Client public function //
+    fn
+        send(String moduleName, Object data)
+        Send data back to the client.
 
 	// Client information that is visible to all users //
 	metadata
