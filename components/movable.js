@@ -11,6 +11,10 @@
         var _isDragging = false;
 
         function moveStart(event) {
+            if (!_hasFocus) {
+                return;
+            }
+
             // Save the original start point and end point //
             _osp = self.startPoint();
             _oep = self.endPoint();
@@ -26,6 +30,10 @@
         }
 
         function moveMove(event) {
+            if (!_hasFocus) {
+                return;
+            }
+
             var dx = event.pageX - _ocp.x;
             var dy = event.pageY - _ocp.y;
 
@@ -43,6 +51,10 @@
         }
 
         function moveEnd() {
+            if (!_hasFocus) {
+                return;
+            }
+
             self.redraw();
             self.trigger("changed");
 

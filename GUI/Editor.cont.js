@@ -29,6 +29,7 @@
 			_methods["authNeeded"] = function () { self.authNeeded.apply(self, arguments); };
 			_methods["listProjectPeer"] = function () { self.listProjectPeer.apply(self, arguments); };
 			_methods["projectJoined"] = function () { self.projectJoined.apply(self, arguments); };
+            _methods["projectSaved"] = function () { self.projectSaved.apply(self, arguments); };
 			
 			_methods["componentDraw"] = function () { self.peerComponentDraw.apply(self, arguments); };
 			_methods["componentUpdate"] = function () { self.peerComponentUpdate.apply(self, arguments); };
