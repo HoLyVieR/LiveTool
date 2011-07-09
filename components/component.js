@@ -136,7 +136,7 @@
         };
 		
 		// Allow generic event binding //
-		var _supportedEvent = ["click", "mouseup", "mousedown", "mousemove"];
+		var _supportedEvent = ["click", "mouseup", "mousedown", "mousemove", "dblclick"];
 
         function addEventSupport(event) {
             self[event] = function (fnct) {

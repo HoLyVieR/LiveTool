@@ -37,6 +37,7 @@
 
 		<script src="/components/line.comp.js" type="text/javascript"></script>
 		<script src="/components/square.comp.js" type="text/javascript"></script>
+        <script src="/components/textbox.comp.js" type="text/javascript"></script>
 		
 		<!-- GUI -->
 		<script src="/GUI/desktop/util/Popup.js" type="text/javascript"></script>
@@ -65,6 +66,7 @@
 					var ErrorCont       = JS.include("GUI.controller.Error");
 					var LineComponent   = JS.include("component.Line");
 					var SquareComponent = JS.include("component.Square");
+                    var TextboxComponent = JS.include("component.Textbox");
 					
 					// Initialize the server connection //
 					var manager = ClientManager();
@@ -84,6 +86,7 @@
 							
 							editorView.addToolbarComponent(new LineComponent());
 							editorView.addToolbarComponent(new SquareComponent());
+                            editorView.addToolbarComponent(new TextboxComponent());
 							
 							var errorView = new ErrorView();
 							var errorCont = new ErrorCont({ connection : manager, view : errorView });

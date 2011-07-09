@@ -2,7 +2,6 @@
 	JS.namespace("component");
 
 	var Logger = JS.include("logger.Logger");
-	var Resizable = JS.include("component.Resizable");
     var BaseComponent = JS.include("component.BaseComponent");
 
 	component.Line = function () {

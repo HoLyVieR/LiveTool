@@ -9,6 +9,7 @@
         var _osp, _oep; // Original Start Point & Original End Point //
         var _ocp; // Original Click Position //
         var _isDragging = false;
+        var _hasMoved = false; // Flag to know wheter the drag moved the element or not //
 
         function moveStart(event) {
             if (!_hasFocus) {
@@ -27,6 +28,7 @@
             $(document.body).bind("mouseup", moveEnd);
 
             _isDragging = true;
+            _hasMoved = false;
         }
 
         function moveMove(event) {
@@ -48,6 +50,8 @@
             });
 
             self.preview();
+
+            _hasMoved = true;
         }
 
         function moveEnd() {
@@ -55,8 +59,10 @@
                 return;
             }
 
-            self.redraw();
-            self.trigger("changed");
+            if (_hasMoved) {
+                self.redraw();
+                self.trigger("changed");
+            }
 
             _isDragging = false;
 
