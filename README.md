@@ -1,7 +1,7 @@
 LiveTool
 ========
 
-This is a work in progress project that aims to provide a collaborative graphic editor that can be used in a browser.
+This project is a demo that was made up to show what can be done with RTMFP. At the current stage it's a mini-graphical editor that can be used by multiple people at the same time. It was also a project to show that it can be possible to integrate RTMFP technology without sacrificing support for user that don't have Flash. 
 
 Technologies
 ------------
